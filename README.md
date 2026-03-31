@@ -73,6 +73,4 @@ Then open `http://localhost:5000` in your browser.
 
 > Real-time drowsiness monitoring with live analytics, emergency map, and session history.
 
-## 📄 License
 
-MIT License — feel free to use and modify.
