@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafelyDriven | Advanced Driver Drowsiness Detection</title>
+    <meta name="description"
+        content="State-of-the-art AI-powered driver drowsiness detection for safer journeys. Real-time monitoring and instant alerts.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">👁️</span>
+                <span class="logo-text">Safely<span>Driven</span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How it Works</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">Safeguarding Every <span class="accent">Mile</span></h1>
+            <p class="hero-subtitle">Experience next-generation driver safety. Our intelligent vision system detects
+                fatigue before it becomes a danger.</p>
+
+            <div class="dashboard-grid">
+                <!-- Main Feed & Chart -->
+                <div class="primary-panel glass">
+                    <div class="panel-header">
+                        <h3>Live Feed & Analytics</h3>
+                        <div class="status-indicator">
+                            <span class="dot" id="status-dot"></span>
+                            <span id="status-text">System Ready</span>
+                        </div>
+                    </div>
+
+                    <!-- Video Container -->
+                    <div class="visualizer-container">
+                        <div id="video-placeholder" class="video-preview">
+                            <div class="scan-line"></div>
+                            <div class="placeholder-content">
+                                <span class="icon">📷</span>
+                                <p>Camera feed will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Chart Container -->
+                    <div class="chart-container" style="margin-top: 15px; margin-bottom: 15px;">
+                        <canvas id="analytics-chart"></canvas>
+                    </div>
+
+                    <!-- Main Controls -->
+                    <div class="controls">
+                        <button id="start-btn" class="btn btn-primary">Start Monitoring</button>
+                        <button id="stop-btn" class="btn btn-outline d-none">Stop System</button>
+                    </div>
+                </div>
+
+                <!-- Settings & Logs Sidebar -->
+                <div class="sidebar-panel">
+                    <!-- Driver Metrics -->
+                    <div class="metrics-panel glass">
+                        <h3>Driver Analytics</h3>
+                        <div class="metric-grid">
+                            <div class="metric-box score-box">
+                                <span class="metric-value" id="score-val">100</span>
+                                <span class="metric-label">Safety Score</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-value" id="ear-gauge-val">0.00</span>
+                                <span class="metric-label">Live EAR</span>
+                            </div>
+                            <div class="metric-box emotion-box">
+                                <span class="metric-value" id="emotion-val">---</span>
+                                <span class="metric-label">Emotion (<span id="emotion-score">0</span>%)</span>
+                            </div>
+                        </div>
+                        <div id="stress-alert" class="alert-banner d-none">
+                            ⚠️ HIGH EMOTIONAL STRESS DETECTED
+                        </div>
+                        <div id="sos-alert" class="alert-banner sos-banner d-none">
+                            🚨 SOS EMERGENCY TRIGGERED 🚨<br/>
+                            <small>Driver unresponsive for 4s. Emergency contact notified.</small>
+                        </div>
+                    </div>
+
+                    <!-- Status Cards -->
+                    <div class="hardware-status glass">
+                        <h3>Hardware Status</h3>
+                        <div class="hw-item">
+                            <span class="hw-dot" id="cam-dot"></span> Web Camera
+                        </div>
+                        <div class="hw-item">
+                            <span class="hw-dot" id="ard-dot"></span> Arduino (COM5)
+                            <a href="#" id="reconnect-btn" style="font-size: 0.7rem; color: var(--primary); margin-left: auto; text-decoration: none;">Reconnect</a>
+                        </div>
+                    </div>
+
+                    <!-- Settings -->
+                    <div class="settings-panel glass">
+                        <h3>Settings</h3>
+                        <div class="setting-group">
+                            <label>Drowsiness Delay (EAR)</label>
+                            <input type="range" id="ear-slider" min="0.15" max="0.30" step="0.01" value="0.25">
+                            <span class="val-display" id="ear-val">0.25</span>
+                        </div>
+                        <div class="setting-group">
+                            <label>Yawn Sensitivity (MAR)</label>
+                            <input type="range" id="mar-slider" min="0.25" max="0.45" step="0.01" value="0.33">
+                            <span class="val-display" id="mar-val">0.33</span>
+                        </div>
+                        <div class="setting-group">
+                            <label for="sos-phone-input">Emergency Contact</label>
+                            <input type="tel" id="sos-phone-input" class="text-input" placeholder="+1234567890">
+                        </div>
+                    </div>
+
+                    <!-- Logs -->
+                    <div class="logs-panel glass">
+                        <h3>Session Logs</h3>
+                        <ul id="log-list" class="log-list">
+                            <li class="log-item info">[System] Ready to start monitoring.</li>
+                        </ul>
+                    </div> <!-- End logs-panel -->
+                </div> <!-- End sidebar-panel -->
+            </div> <!-- End first dashboard-grid -->
+
+            <!-- Additional Dashboard Components -->
+            <div class="dashboard-grid additional-dashboard-grid" style="margin-top: 1rem; align-items: stretch;">
+                <!-- Emergency Map -->
+                <div class="map-panel glass" style="padding: 1.5rem;">
+                    <h3 style="border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--text-main); font-size: 1.2rem; margin-top: 0;">Interactive Emergency Map</h3>
+                    <div id="sos-map" style="height: 350px; width: 100%; border-radius: 12px; z-index: 1;"></div>
+                </div>
+                <!-- Black Box History -->
+                <div class="history-panel glass" style="padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        <h3 style="margin: 0; border: none; padding: 0; color: var(--text-main); font-size: 1.2rem;">Session History &amp; "Black Box" Recording</h3>
+                        <button id="refresh-logs-btn" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Refresh</button>
+                    </div>
+                    <div id="black-box-gallery" class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; max-height: 400px; overflow-y: auto;">
+                        <p class="text-muted text-center" style="grid-column: 1 / -1; margin: 1rem 0;">No recent events recorded.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Comprehensive Safety Features</h2>
+            <div class="features-grid">
+                <div class="feature-card glass">
+                    <div class="feature-icon">👁️</div>
+                    <h3>Advanced Drowsiness Tracking (EAR)</h3>
+                    <p>Real-time Eye Aspect Ratio (EAR) computation tracks 6 eye coordinates at 30fps. Drops below the 0.25 threshold for 10 frames instantly trigger auditory micro-sleep alarms.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">👄</div>
+                    <h3>Yawn & Fatigue Detection (MAR)</h3>
+                    <p>Monitors Mouth Aspect Ratio (MAR) to predict exhaustion. Calculates vertical and horizontal lip distances to distinguish genuine yawns from talking, actively adjusting your Safety Score.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Emotion & Mental Health Monitor</h3>
+                    <p>Powered by EfficientNet-B0 to analyze facial expressions in real-time. Detects aggressive driving states, logging events and triggering High Stress alerts when anger exceeds 80%.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">🚨</div>
+                    <h3>Location-Aware SOS Integration</h3>
+                    <p>If the driver becomes unresponsive for 4 continuous seconds, an automated Twilio SMS is dispatched to emergency contacts, complete with an approximate live Google Maps link.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Hardware Automation (Arduino)</h3>
+                    <p>Bridges AI vision directly to physical indicators. The Python backend communicates over USB to an Arduino microcontroller, triggering live LED status lights or steering wheel haptics.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">📊</div>
+                    <h3>Live Safety Dashboard</h3>
+                    <p>A sophisticated web interface acting as an active "Black Box." Features live video relay, dynamic 0-100 Safety Score tracking, and a chronological log of all driving events.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works glass-section">
+        <div class="container">
+            <h2 class="section-title">The Technology Pipeline: How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <span class="step-num">01</span>
+                    <h4>Face & Landmark Detection</h4>
+                    <p>Captures live video via OpenCV and uses Dlib to instantly pinpoint 68 specific facial landmarks.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">02</span>
+                    <h4>Mathematical Ratio Extraction</h4>
+                    <p>Calculates Euclidean distances between eyelids and lips to constantly extract Eye and Mouth Aspect Ratios.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">03</span>
+                    <h4>Emotional Processing Pipeline</h4>
+                    <p>Feeds the face image into the EfficientNet-B0 neural network to analyze and output live emotional states.</p>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">04</span>
+                    <h4>Threshold Logic & Event Dispatch</h4>
+                    <p>Evaluates metrics against thresholds to trigger alarms, Arduino hardware, and location-aware Twilio SOS alerts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content glass">
+                <h2>About SafelyDriven AI</h2>
+                <p>SafelyDriven is a comprehensive, open-source driver monitoring ecosystem engineered to actively combat the leading causes of traffic accidents: fatigue, micro-sleeps, and emotional volatility (road rage/stress). Modern vehicles often rely on steering wheel telemetry to guess if a driver is tired; SafelyDriven brings direct, zero-contact biometric observation to any vehicle with a simple webcam.</p>
+                
+                <br>
+
+                <p>Built on a robust Python backend using <strong>Flask, OpenCV, Dlib, and Scipy</strong>, the system achieves near-instantaneous inference times even on standard CPU hardware. By bridging advanced Computer Vision (facial landmarks) with Deep Learning heuristics (EfficientNet-B0), and extending out to Physical Hardware (Arduino) and Cloud Telecom (Twilio API), SafelyDriven represents the future of accessible, retroactive vehicular safety technology.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SafelyDriven AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
