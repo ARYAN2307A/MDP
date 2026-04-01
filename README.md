@@ -79,3 +79,7 @@ Then open `http://localhost:5000` in your browser.
 
 [AI-Powered-Driver-Drowsiness-Detection-System.pptx](https://github.com/user-attachments/files/26393826/AI-Powered-Driver-Drowsiness-Detection-System.pptx)
 
+## Project Report
+
+[REPORT.docx](https://github.com/user-attachments/files/26394145/REPORT.docx)
+
