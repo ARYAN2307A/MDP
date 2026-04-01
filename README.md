@@ -74,6 +74,9 @@ Then open `http://localhost:5000` in your browser.
 ## 📸 Dashboard Preview
 
 > Real-time drowsiness monitoring with live analytics, emergency map, and session history.
+>
+> <img width="1835" height="1066" alt="Screenshot 2026-04-01 000204" src="https://github.com/user-attachments/assets/e3ab5882-ce13-4546-9a21-6b2276bffc6b" />
+
 
 ## Final Product Presentation
 
