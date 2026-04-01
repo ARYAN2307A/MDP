@@ -41,8 +41,9 @@ source .venv/bin/activate  # Mac/Linux
 pip install opencv-python dlib flask flask-socketio twilio numpy scipy
 ```
 
-### 4. Download the AI Model (Required)
+### 4. Download the AI Model / Dataset (Required)
 The Dlib facial landmark model is too large for GitHub (100MB) and is required to run the code. 
+*(Note: This pre-trained model was originally trained on the **iBUG 300-W face landmark dataset**).*
 
 1. Download the compressed model here: **[shape_predictor_68_face_landmarks.dat.bz2](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)**
 2. Extract the `.bz2` archive to get the `.dat` file.
