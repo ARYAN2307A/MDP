@@ -25,8 +25,8 @@ A real-time AI-powered driver safety system that detects drowsiness, blink rate,
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/ARYAN2307A/MDP.git
+cd MDP
 ```
 
 ### 2. Create a virtual environment
@@ -41,11 +41,12 @@ source .venv/bin/activate  # Mac/Linux
 pip install opencv-python dlib flask flask-socketio twilio numpy scipy
 ```
 
-### 4. Download the facial landmark model
-Download `shape_predictor_68_face_landmarks.dat` from:
-> https://github.com/davisking/dlib-models
+### 4. Download the AI Model (Required)
+The Dlib facial landmark model is too large for GitHub (100MB) and is required to run the code. 
 
-Place it in the project root directory.
+1. Download the compressed model here: **[shape_predictor_68_face_landmarks.dat.bz2](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)**
+2. Extract the `.bz2` archive to get the `.dat` file.
+3. Place the extracted `shape_predictor_68_face_landmarks.dat` file directly in your main project folder.
 
 ### 5. Set up environment variables
 Create a `.env` file in the root directory:
