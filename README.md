@@ -99,3 +99,6 @@ Then open `http://localhost:5000` in your browser.
 
 [REPORT.docx](https://github.com/user-attachments/files/26394145/REPORT.docx)
 
+## Project Demo Video
+
+https://drive.google.com/file/d/1sTdp0ql23iBH1qJZIPliGIuT1RuPcvT9/view?usp=sharing
